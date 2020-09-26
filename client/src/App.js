@@ -1,4 +1,9 @@
 import React from "react";
+import Header from "./Header";
+import Balance from "./Balance";
+import IncomeExpense from "./IncomeExpense";
+import TransactionList from "./TransactionList";
+import AddTransaction from "./AddTransaction";
 
 // STATICS
 import "./App.css";
@@ -6,7 +11,13 @@ import "./App.css";
 function App() {
   return (
     <div>
-      <h1>Let's Build An Expense Tracker</h1>
+      <Header />
+      <div className="container">
+        <Balance />
+        <IncomeExpense />
+        <TransactionList />
+        <AddTransaction />
+      </div>
     </div>
   );
 }
