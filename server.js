@@ -5,8 +5,10 @@ const cors = require("cors");
 const helmet = require("helmet");
 const colors = require("colors");
 const logger = require("morgan");
+const connectDB = require("./models/db");
 
 const app = express();
+connectDB();
 
 // ROUTES
 const transactionsRoutes = require("./routes/transaction");
