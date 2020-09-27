@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "./context/Global.context";
+import { GlobalContext, numberWithCommas } from "./context/Global.context";
 
-export const Transaction = ({ amount, id, text }) => {
+export const Transaction = ({ amount, _id, text }) => {
   // HOOKS && CONTEXT
   const { deleteTranction } = useContext(GlobalContext);
 
   // FUNCTIONS
   const sign = amount < 0 ? "-" : "+";
-  const handleDelete = () => deleteTranction(id);
+  const handleDelete = () => deleteTranction(_id);
 
   return (
     <li className={amount < 0 ? "minus" : "plus"}>
       {text}{" "}
       <span>
-        {sign}${Math.abs(amount)}
+        {sign}${numberWithCommas(Math.abs(amount))}
       </span>
       <button className="delete-btn" onClick={handleDelete}>
         x

@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const colors = require("colors");
 const logger = require("morgan");
 const connectDB = require("./models/db");
+const path = require("path");
 
 const app = express();
 connectDB();
@@ -22,6 +23,14 @@ app.use(helmet());
 // UNMOUNTING ROUTES
 app.get("/", (req, res) => res.send("Hello Expense Trackers"));
 app.use("/api/v1/transactions", transactionsRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/client/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+}
 
 // LISTENERS
 app.listen(process.env.PORT, () =>

@@ -12,7 +12,6 @@ const AddTransaction = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTransaction = {
-      id: Math.floor(Math.random() * 100000000),
       text,
       amount: +amount,
     };

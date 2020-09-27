@@ -29,18 +29,41 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const deleteTranction = (id) =>
-    dispatch({
-      type: "DELETE_TRANSACTION",
-      payload: id,
-    });
+  const deleteTranction = async (id) => {
+    try {
+      await Axios.delete(`/api/v1/transactions/${id}`);
+      dispatch({
+        type: "DELETE_TRANSACTION",
+        payload: id,
+      });
+    } catch (err) {
+      dispatch({
+        type: "TRANSACTION_ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  };
 
-  const addTransaction = (newTansac) =>
-    dispatch({
-      type: "ADD_TRANSACTION",
-      payload: newTansac,
-    });
+  const addTransaction = async (newTansac) => {
+    const config = {
+      headers: {
+        "Context-Type": "application/json",
+      },
+    };
 
+    try {
+      const res = await Axios.post("/api/v1/transactions", newTansac, config);
+      dispatch({
+        type: "ADD_TRANSACTION",
+        payload: res.data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: "TRANSACTION_ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -56,3 +79,6 @@ export const GlobalProvider = ({ children }) => {
     </GlobalContext.Provider>
   );
 };
+
+export const numberWithCommas = (x) =>
+  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
